@@ -103,5 +103,5 @@ function MainController($scope, $http, $rootScope) {
 				window.applicationCache.update(); // Update the cache in background. Won't take effect until reload.				
 			}
 		}
-	}, 2000);
+	}, 10000);
 }
