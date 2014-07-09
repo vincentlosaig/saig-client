@@ -1,0 +1,53 @@
+div#header
+	div.navbar.navbar-default.navbar-static-top(role='navigation')
+		div.container
+			div.navbar-header.pull-left
+			a.btn.btn-default.btn-md.navbar-btn(href='/')
+				span.glyphicon.glyphicon-home
+			button.btn.btn-default.btn-md.navbar-btn(ng-class='{ \'btn-success\' : isOnline, \'btn-danger\' : !isOnline }')
+				span.glyphicon.glyphicon-globe(title='Connectivity Status')
+			button.btn.btn-default.btn-md.navbar-btn(ng-class='{ \'btn-success\' : !requireUpdate, \'btn-warning\' : requireUpdate }', ng-click='reload()')
+				span.glyphicon.glyphicon-download(title='Update Available', ng-show='requireUpdate && !showLoading')		
+				span.glyphicon.glyphicon-ok(title='Cache is up to date', ng-show='!requireUpdate && !showLoading')
+				image(src='#{apiLink}/images/loading.gif', alt='Checking for updates', ng-show='showLoading')
+			div.navbar-header.pull-right	
+				a.btn.btn-default.btn-md.navbar-btn(ng-click='upload(responses)', ng-disabled='!enableUpload', ng-class='{ \'btn-success\' : uploadAvailable, \'btn-danger\' : !uploadAvailable && enableUpload }', ng-show='isOnline')
+					span.glyphicon.glyphicon-upload  Upload	
+				a.btn.btn-default.btn-md.navbar-btn(ng-click='submit(responses, files)', ng-class='{ \'btn-danger\' : saveAvailable }')
+					span.glyphicon.glyphicon-floppy-disk  Save
+
+
+div.container
+	h2.text-center {{title}}
+	hr
+	div.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
+		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showSuccess = ! showSuccess')&times;
+		{{successMessage}}
+	div.alert.alert-danger.alert-dismissable(ng-show='failureMessage != null && showFailure') 
+		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showFailure = ! showFailure')&times;
+		{{failureMessage}}
+
+	form.form-horizontal(role='form')			
+		div.form-group.row(ng-repeat='q in questions')
+			label.col-md-4(for='{{q.title}}') {{q.title}}		
+			div.col-md-8(ng-switch='q.type')				
+				toggle-switch(ng-switch-when='checkbox', model='responses[q.id]', on-label='Yes', off-label='No')
+				input.form-control(ng-switch-when='text', type='text', ng-model='responses[q.id]')
+				textarea.form-control(ng-switch-when='textarea', ng-model='responses[q.id]', rows='10')
+				div(ng-switch-when='radio')
+					label.checkbox-inline(ng-repeat='o in q.options')
+						input(type='radio', ng-model='responses[q.id]', ng-value='o.title', value='o.title')  
+						|  {{o.title}}
+			
+	div.row.text-center
+		div(style='float:left; margin: 20px;')			
+			select.form-control(id='perPage', ng-model='countPerPage', ng-change='pageChanged()')
+				option(value='{{allQuestions.length}}') All
+				option(ng-repeat='n in [1, 2, 3, 4, 5]', value='{{n}}')	{{n}}
+			| Per Page
+		div
+			pagination(total-items='allQuestions.length', items-per-page='countPerPage', ng-model='currentPage', ng-change='pageChanged()', max-size='4', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
+			
+	div.row
+		p.col-md-12
+			input#fileUpload(type='file', accept='image/*;capture=camera', ng-show='isOnline')

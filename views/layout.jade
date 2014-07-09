@@ -1,0 +1,21 @@
+!!!
+html(manifest='/offline.appcache')
+	head
+		meta(charset='utf8', name='viewport', content='width=device-width, initial-scale=1')
+		base(href='/')
+		title SAI Global POC
+		link(rel='stylesheet', href='/css/bootstrap.min.css')		
+		link(rel='stylesheet', href='/css/angular-toggle-switch.css')
+		link(rel='stylesheet', href='/css/angular-toggle-switch-bootstrap.css')
+		link(rel='stylesheet', href='/css/site.css')
+		
+	body(ng-app='auditApp')
+		div(ng-view)
+		
+		div#footer
+			div.container				
+					p.text-muted 
+						|  POC AngularJS / Bootstrap v
+						span(app-version)
+					
+		include scripts

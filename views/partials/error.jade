@@ -1,0 +1,15 @@
+div#header
+	div.navbar.navbar-default.navbar-static-top(role='navigation')
+		div.container
+			div.navbar-header.pull-left
+			a.btn.btn-default.btn-md.navbar-btn(href='/')
+				span.glyphicon.glyphicon-home
+			button.btn.btn-default.btn-md.navbar-btn#onlineStatus
+				span.glyphicon.glyphicon-globe(title='Connectivity Status')
+			button.btn.btn-default.btn-md.navbar-btn#cacheStatus
+				span.glyphicon.glyphicon-download#downloadIcon(title='Update Available')		
+				span.glyphicon.glyphicon-ok#latestIcon(title='Cache is up to date')
+				image#loadingIcon(src='/images/loading.gif', alt='Checking for updates')
+
+div.container
+	h3 There has been an error with your request.
