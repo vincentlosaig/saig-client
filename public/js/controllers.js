@@ -47,8 +47,7 @@ function MainController($scope, $http, $rootScope) {
 	$scope.displayQuestions = function() {
 		$scope.questions = $scope.allQuestions.slice((parseInt($scope.currentPage, 10) - 1) * parseInt($scope.countPerPage, 10), ((parseInt($scope.currentPage, 10) - 1) * parseInt($scope.countPerPage, 10)) + parseInt($scope.countPerPage, 10));
 	};
-		
-	$http.jsonp('http://localhost:4000/json/schemas.json?callback=JSON_CALLBACK');
+	$http.jsonp($rootScope.apiLink + '/json/schemas.json?callback=JSON_CALLBACK');
 			
 	window.JSON_CALLBACK = function(data) {
 		$scope.allQuestions = data['schema']['qms'].questions;
