@@ -16,7 +16,7 @@ app.use(bodyParser());
 app.use(methodOverride());    
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.locals.apiLink = 'http://localhost:4000';
+app.locals.apiLink = 'http://saig-api.herokuapp.com';
 
 var env = process.env.NODE_ENV || 'development';
 

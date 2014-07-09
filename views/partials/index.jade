@@ -9,7 +9,7 @@ div#header
 			button.btn.btn-default.btn-md.navbar-btn(ng-class='{ \'btn-success\' : !requireUpdate, \'btn-warning\' : requireUpdate }', ng-click='reload()')
 				span.glyphicon.glyphicon-download(title='Update Available', ng-show='requireUpdate && !showLoading')		
 				span.glyphicon.glyphicon-ok(title='Cache is up to date', ng-show='!requireUpdate && !showLoading')
-				image(src='#{apiLink}/images/loading.gif', alt='Checking for updates', ng-show='showLoading')
+				image(src='/images/loading.gif', alt='Checking for updates', ng-show='showLoading')
 			div.navbar-header.pull-right	
 				a.btn.btn-default.btn-md.navbar-btn(ng-click='upload(responses)', ng-disabled='!enableUpload', ng-class='{ \'btn-success\' : uploadAvailable, \'btn-danger\' : !uploadAvailable && enableUpload }', ng-show='isOnline')
 					span.glyphicon.glyphicon-upload  Upload	
