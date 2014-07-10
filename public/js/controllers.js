@@ -23,7 +23,7 @@ function MainController($scope, $http, $rootScope, $filter) {
 	if (typeof window.localStorage !== "undefined") {
 		var loaded = false;
 		
-		if (localStorage.getItem("SchemaView") !== "undefined") {
+		if (localStorage.getItem("SchemaView") !== null) {
 			$scope.schemaView = localStorage.getItem("SchemaView");
 			console.log("SchemaView: " + $scope.schemaView);
 		} else {
