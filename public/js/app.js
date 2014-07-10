@@ -9,6 +9,10 @@ var app = angular.module('auditApp', ['ngRoute', 'ui.bootstrap', 'auditApp.filte
 				templateUrl: 'partials/index',
 				controller: 'MainController'
 			}).
+			when('/settings', {
+				templateUrl: 'partials/settings',
+				controller: 'MainController'
+			}).
 			otherwise({
 				templateUrl: 'partials/error',
 				controller: 'MainController'

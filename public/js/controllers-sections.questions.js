@@ -1,12 +1,10 @@
 'use strict';
 
-function MainController($scope, $http, $rootScope, $filter) {
+function MainController($scope, $http, $rootScope) {
 	$scope.responses = {};
 	$scope.files = {};	
 	$scope.allQuestions = [];
 	$scope.sections = [];
-	$scope.questions = [];
-	$scope.schemaView = 'Questions';
 	
 	$scope.setMessage = function (successMsg, failMsg) {
 		if (successMsg == "") {
@@ -23,18 +21,13 @@ function MainController($scope, $http, $rootScope, $filter) {
 	if (typeof window.localStorage !== "undefined") {
 		var loaded = false;
 		
-		if (localStorage.getItem("SchemaView") !== "undefined") {
-			$scope.schemaView = localStorage.getItem("SchemaView");
-			console.log("SchemaView: " + $scope.schemaView);
-		}
-		
-		if (localStorage.getItem("Responses") !== null) {
+		if (localStorage.getItem("Responses") != null) {
 			$scope.responses = JSON.parse(localStorage.getItem("Responses"));
 			console.log("Responses: " + localStorage.getItem("Responses"));
 			loaded = true;
 		} 
 		
-		if (localStorage.getItem("Files") !== null) {
+		if (localStorage.getItem("Files") != null) {
 			$scope.files = JSON.parse(localStorage.getItem("Files"));
 			console.log("Files: " + localStorage.getItem("Files"));
 			loaded = true;
@@ -54,19 +47,7 @@ function MainController($scope, $http, $rootScope, $filter) {
 	};
 	
 	$scope.displayQuestions = function() {
-		switch ($scope.schemaView) {
-			case "Questions":
-				$scope.questions = $scope.allQuestions.slice((parseInt($scope.currentPage, 10) - 1) * parseInt($scope.countPerPage, 10), ((parseInt($scope.currentPage, 10) - 1) * parseInt($scope.countPerPage, 10)) + parseInt($scope.countPerPage, 10));
-				break;
-			case "Sections":
-				$scope.questions = [];
-				$scope.allQuestions.forEach(function(q) {
-					if (q.section.id == $scope.currentPage) {
-						$scope.questions.push(q);
-					}
-				});
-				break;
-		}
+		$scope.questions = $scope.allQuestions.slice((parseInt($scope.currentPage, 10) - 1) * parseInt($scope.countPerPage, 10), ((parseInt($scope.currentPage, 10) - 1) * parseInt($scope.countPerPage, 10)) + parseInt($scope.countPerPage, 10));
 	};
 	$http.jsonp($rootScope.apiLink + '/json/schemas.json?callback=JSON_CALLBACK');
 			
@@ -82,28 +63,28 @@ function MainController($scope, $http, $rootScope, $filter) {
 		$scope.sections.push({
 			id: section.id,
 			title: section.title,
-			isChild: child
-		});
-	}
-	
-	window.JSON_CALLBACK = function(data) {		
-		data["sections"].forEach(function (s) {
-			recursiveIter(s, false);
+			isChild: child,
+			questions: section.questions
 		});
 		
-		var lastSection;
-		data["schema"]["qms"].questions.forEach(function (q) {
-			var section = $filter('getByProperty')('id', q.section, $scope.sections);
+		section.questions.forEach(function (q) {
 			$scope.allQuestions.push({
 				id: q.id,
 				title: q.title,
 				type: q.type,
 				options: q.options,
-				section: section,
-				newSection: lastSection != section
-			});			
-			lastSection = section;
+				section: q.section
+			});
 		});
+	}
+	
+	window.JSON_CALLBACK = function(data) {	
+		var qSetId = data["schema"]["qms"].questionSet;	
+		console.log(data["questionSet"]["1"]);
+		data["questionSet"]["1"].sections.forEach(function (s) {
+			recursiveIter(s, false);
+		});		
+		
 		$scope.currentPage = localStorage.getItem("Page") != null ? parseInt(localStorage.getItem("Page"), 10) : parseInt(1, 10);
 		$scope.countPerPage = localStorage.getItem("Count") != null ? parseInt(localStorage.getItem("Count"), 10) : parseInt($scope.allQuestions.length, 10);		
 		$scope.title = data['schema']['qms'].title;
@@ -148,16 +129,6 @@ function MainController($scope, $http, $rootScope, $filter) {
 			window.location.reload();
 		}
 	};
-	
-	$scope.saveSchemaView = function(schemaView) {		
-		$scope.schemaView = angular.copy(schemaView);		
-		console.log($scope.schemaView);
-		if (typeof window.localStorage != "undefined") {
-			$scope.setMessage("Saved Schema View.", "");
-			localStorage.setItem("SchemaView", schemaView);
-			localStorage.setItem("Page", 1);
-		}
-	}
 	
 	// Check application cache status every 10 seconds
 	setInterval(function(){

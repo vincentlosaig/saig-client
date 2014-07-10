@@ -18,7 +18,13 @@ div#header
 
 
 div.container
-	h2.text-center {{title}}
+	div.row
+		div.col-md-2
+		div.col-md-8.text-center
+			h2 {{title}}
+		div.col-md-2
+			a.btn.btn-default.btn-md.pull-right(href='/settings', style='margin-top:20px; margin-bottom:10px;')
+				span.glyphicon.glyphicon-cog  Settings
 	hr
 	div.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
 		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showSuccess = ! showSuccess')&times;
@@ -27,10 +33,12 @@ div.container
 		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showFailure = ! showFailure')&times;
 		{{failureMessage}}
 
-	form.form-horizontal(role='form')			
+	form.form-horizontal(role='form')
 		div.form-group.row(ng-repeat='q in questions')
+			h2(ng-show='!q.section.isChild && q.newSection') {{q.section.title}}
+			h4(ng-show='q.section.isChild && q.newSection') {{q.section.title}}
 			label.col-md-4(for='{{q.title}}') {{q.title}}		
-			div.col-md-8(ng-switch='q.type')				
+			div.col-md-8(ng-switch='q.type')
 				toggle-switch(ng-switch-when='checkbox', model='responses[q.id]', on-label='Yes', off-label='No')
 				input.form-control(ng-switch-when='text', type='text', ng-model='responses[q.id]')
 				textarea.form-control(ng-switch-when='textarea', ng-model='responses[q.id]', rows='10')
@@ -40,14 +48,15 @@ div.container
 						|  {{o.title}}
 			
 	div.row.text-center
-		div(style='float:left; margin: 20px;')			
+		div.pull-left(style='margin: 20px;', ng-show='schemaView == \'Questions\'')
 			select.form-control(id='perPage', ng-model='countPerPage', ng-change='pageChanged()')
 				option(value='{{allQuestions.length}}') All
 				option(ng-repeat='n in [1, 2, 3, 4, 5]', value='{{n}}')	{{n}}
 			| Per Page
 		div
-			pagination(total-items='allQuestions.length', items-per-page='countPerPage', ng-model='currentPage', ng-change='pageChanged()', max-size='4', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
-			
+			pagination(ng-show='schemaView == \'Questions\'', total-items='allQuestions.length', items-per-page='countPerPage', ng-model='currentPage', ng-change='pageChanged()', max-size='3', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
+			pagination(ng-show='schemaView == \'Sections\'', total-items='allQuestions.length', items-per-page='questions.length', ng-model='currentPage', ng-change='pageChanged()', max-size='3', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
+
 	div.row
 		p.col-md-12
 			input#fileUpload(type='file', accept='image/*;capture=camera', ng-show='isOnline')

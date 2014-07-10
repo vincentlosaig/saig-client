@@ -4,12 +4,18 @@ div#header
 			div.navbar-header.pull-left
 			a.btn.btn-default.btn-md.navbar-btn(href='/')
 				span.glyphicon.glyphicon-home
-			button.btn.btn-default.btn-md.navbar-btn#onlineStatus
+			button.btn.btn-default.btn-md.navbar-btn(ng-class='{ \'btn-success\' : isOnline, \'btn-danger\' : !isOnline }')
 				span.glyphicon.glyphicon-globe(title='Connectivity Status')
-			button.btn.btn-default.btn-md.navbar-btn#cacheStatus
-				span.glyphicon.glyphicon-download#downloadIcon(title='Update Available')		
-				span.glyphicon.glyphicon-ok#latestIcon(title='Cache is up to date')
-				image#loadingIcon(src='/images/loading.gif', alt='Checking for updates')
+			button.btn.btn-default.btn-md.navbar-btn(ng-class='{ \'btn-success\' : !requireUpdate, \'btn-warning\' : requireUpdate }', ng-click='reload()')
+				span.glyphicon.glyphicon-download(title='Update Available', ng-show='requireUpdate && !showLoading')		
+				span.glyphicon.glyphicon-ok(title='Cache is up to date', ng-show='!requireUpdate && !showLoading')
+				image(src='/images/loading.gif', alt='Checking for updates', ng-show='showLoading')
 
 div.container
-	h3 There has been an error with your request.
+	div.row
+		h3 Sorry - that page could not be found
+	div.row
+		p 
+			| There has been an error with your request. Please return to the
+			a(href='/')  home
+			|  page.

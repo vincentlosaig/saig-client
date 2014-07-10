@@ -1,0 +1,35 @@
+div#header
+	div.navbar.navbar-default.navbar-static-top(role='navigation')
+		div.container
+			div.navbar-header.pull-left
+			a.btn.btn-default.btn-md.navbar-btn(href='/')
+				span.glyphicon.glyphicon-home
+			button.btn.btn-default.btn-md.navbar-btn(ng-class='{ \'btn-success\' : isOnline, \'btn-danger\' : !isOnline }')
+				span.glyphicon.glyphicon-globe(title='Connectivity Status')
+			button.btn.btn-default.btn-md.navbar-btn(ng-class='{ \'btn-success\' : !requireUpdate, \'btn-warning\' : requireUpdate }', ng-click='reload()')
+				span.glyphicon.glyphicon-download(title='Update Available', ng-show='requireUpdate && !showLoading')		
+				span.glyphicon.glyphicon-ok(title='Cache is up to date', ng-show='!requireUpdate && !showLoading')
+				image(src='/images/loading.gif', alt='Checking for updates', ng-show='showLoading')
+
+div.container
+	div.row		
+		div.col-md-2
+			a.btn.btn-default.btn-md.pull-left(href='/', style='margin-top:20px; margin-bottom:10px;')
+				span.glyphicon.glyphicon-arrow-left  Back		
+		div.col-md-8.text-center
+			h2 Settings
+		div.col-md-2
+			
+	hr
+	div.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
+		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showSuccess = ! showSuccess')&times;
+		{{successMessage}}
+	div.alert.alert-danger.alert-dismissable(ng-show='failureMessage != null && showFailure') 
+		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showFailure = ! showFailure')&times;
+		{{failureMessage}}
+		
+	div.row.form-group
+		label.col-md-4 Schema View
+		div.col-md-8.btn-group
+			label.btn.btn-default(ng-model='schemaView', btn-radio='\'Questions\'', ng-click='schemaView = \'Questions\'; saveSchemaView(schemaView)') Questions
+			label.btn.btn-default(ng-model='schemaView', btn-radio='\'Sections\'', ng-click='schemaView = \'Sections\'; saveSchemaView(schemaView)') Sections
