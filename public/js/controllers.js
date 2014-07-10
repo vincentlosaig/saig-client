@@ -158,6 +158,7 @@ function MainController($scope, $http, $rootScope, $filter) {
 			$scope.setMessage("Saved Schema View.", "");
 			localStorage.setItem("SchemaView", schemaView);
 			localStorage.setItem("Page", 1);
+			localStorage.setItem("Count", $scope.allQuestions.length);
 		}
 	}
 	
