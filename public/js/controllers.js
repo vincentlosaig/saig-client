@@ -26,6 +26,8 @@ function MainController($scope, $http, $rootScope, $filter) {
 		if (localStorage.getItem("SchemaView") !== "undefined") {
 			$scope.schemaView = localStorage.getItem("SchemaView");
 			console.log("SchemaView: " + $scope.schemaView);
+		} else {
+			$scope.schemaView = 'Questions';
 		}
 		
 		if (localStorage.getItem("Responses") !== null) {
