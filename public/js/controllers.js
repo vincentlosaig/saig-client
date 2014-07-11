@@ -47,6 +47,18 @@ function MainController($scope, $http, $rootScope, $filter) {
 		}
 	}
 	
+	$scope.changePage = function(direction) {
+		console.log(direction);
+		switch (direction) {
+			case -1: 
+				if (currentPage > 1) currentPage--;
+				break;
+			case 1:
+				if (currentPage < (($scope.schemaView == 'Questions') ? ($scope.allQuestions.length / $scope.countPerPage) : ($scope.sections.length))) currentPage++;
+				break;
+		}
+	};
+	
 	$scope.pageChanged = function() {
 		if (typeof window.localStorage != "undefined") {
 			localStorage.setItem("Page", $scope.currentPage);

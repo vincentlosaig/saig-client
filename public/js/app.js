@@ -36,7 +36,8 @@ app.run(function($window, $rootScope) {
 	$rootScope.isOnline = navigator.onLine;
 	$rootScope.requireUpdate = ($window.applicationCache.status == window.applicationCache.UPDATEREADY && $scope.isOnline);
 	$rootScope.apiLink = "http://saig-api.herokuapp.com";
-
+	//$rootScope.apiLink = "http://localhost:4000";
+	
 	$window.addEventListener("offline", function() {
 		$rootScope.$apply(function() {
 			$rootScope.isOnline = false;
