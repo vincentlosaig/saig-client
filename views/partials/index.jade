@@ -34,7 +34,7 @@ div.container
 		{{failureMessage}}
 
 	form.form-horizontal(role='form')
-		div.form-group.row(ng-repeat='q in questions', ng-swipe-left='changePage(-1)', ng-swipe-right='changePage(1)')
+		div.form-group.row(ng-repeat='q in questions')
 			h2(ng-show='!q.section.isChild && q.newSection') {{q.section.title}}
 			h4(ng-show='q.section.isChild && q.newSection') {{q.section.title}}
 			label.col-md-4(for='{{q.title}}') {{q.title}}		
