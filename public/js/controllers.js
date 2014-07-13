@@ -88,24 +88,26 @@ function MainController($scope, $http, $rootScope, $filter) {
 		});
 	}
 	
-	window.JSON_CALLBACK = function(data) {		
-		data["sections"].forEach(function (s) {
-			recursiveIter(s, false);
-		});
-		
-		var lastSection;
-		data["schema"]["qms"].questions.forEach(function (q) {
-			var section = $filter('getByProperty')('id', q.section, $scope.sections);
-			$scope.allQuestions.push({
-				id: q.id,
-				title: q.title,
-				type: q.type,
-				options: q.options,
-				section: section,
-				newSection: lastSection != section
-			});			
-			lastSection = section;
-		});
+	window.JSON_CALLBACK = function(data) {	
+		if ($scope.questions.length == 0) {			
+			data["sections"].forEach(function (s) {
+				recursiveIter(s, false);
+			});
+			
+			var lastSection;
+			data["schema"]["qms"].questions.forEach(function (q) {
+				var section = $filter('getByProperty')('id', q.section, $scope.sections);
+				$scope.allQuestions.push({
+					id: q.id,
+					title: q.title,
+					type: q.type,
+					options: q.options,
+					section: section,
+					newSection: lastSection != section
+				});			
+				lastSection = section;
+			});
+		}
 		$scope.currentPage = localStorage.getItem("Page") != null ? parseInt(localStorage.getItem("Page"), 10) : parseInt(1, 10);
 		$scope.countPerPage = localStorage.getItem("Count") != null ? parseInt(localStorage.getItem("Count"), 10) : parseInt($scope.allQuestions.length, 10);		
 		$scope.title = data['schema']['qms'].title;
