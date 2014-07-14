@@ -17,46 +17,50 @@ div#header
 					span.glyphicon.glyphicon-floppy-disk  Save
 
 
-div.container
-	div.row
-		div.col-xs-2
-		div.col-xs-8.text-center
-			h2 {{title}}
-		div.col-xs-2
-			a.btn.btn-default.btn-md.pull-right(href='/settings', style='margin-top:20px; margin-bottom:10px;')
-				span.glyphicon.glyphicon-cog
-	hr
-	div.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
-		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showSuccess = ! showSuccess')&times;
-		{{successMessage}}
-	div.alert.alert-danger.alert-dismissable(ng-show='failureMessage != null && showFailure') 
-		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showFailure = ! showFailure')&times;
-		{{failureMessage}}
+div.container(ng-cloak)
+	div.row.text-center(ng-hide='ready', style='padding:25px;')
+		img(src='/images/large_spinner.gif')
+	
+	div(ng-cloak, ng-show='ready')
+		div.row
+			div.col-xs-2
+			div.col-xs-8.text-center
+				h2 {{title}}
+			div.col-xs-2
+				a.btn.btn-default.btn-md.pull-right(href='/settings', style='margin-top:20px; margin-bottom:10px;')
+					span.glyphicon.glyphicon-cog
+		hr
+		div.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
+			button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showSuccess = ! showSuccess')&times;
+			{{successMessage}}
+		div.alert.alert-danger.alert-dismissable(ng-show='failureMessage != null && showFailure') 
+			button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showFailure = ! showFailure')&times;
+			{{failureMessage}}
 
-	form.form-horizontal(role='form')
-		div.form-group.row(ng-repeat='q in questions')
-			h2(ng-show='!q.section.isChild && q.newSection') {{q.section.title}}
-			h4(ng-show='q.section.isChild && q.newSection') {{q.section.title}}
-			label.col-md-4(for='{{q.title}}') {{q.title}}		
-			div.col-md-8(ng-switch='q.type')
-				toggle-switch(ng-switch-when='checkbox', model='responses[q.id]', on-label='Yes', off-label='No')
-				input.form-control(ng-switch-when='text', type='text', ng-model='responses[q.id]')
-				textarea.form-control(ng-switch-when='textarea', ng-model='responses[q.id]', rows='10')
-				div(ng-switch-when='radio')
-					label.checkbox-inline(ng-repeat='o in q.options')
-						input(type='radio', ng-model='responses[q.id]', ng-value='o.title', value='o.title')  
-						|  {{o.title}}
-			
-	div.row.text-center
-		div.pull-left(style='margin: 20px;', ng-show='schemaView == \'Questions\'')
-			select.form-control(id='perPage', ng-model='countPerPage', ng-change='pageChanged()')
-				option(value='{{allQuestions.length}}') All
-				option(ng-repeat='n in [1, 2, 3, 4, 5]', value='{{n}}')	{{n}}
-			| Per Page
-		div
-			pagination(ng-show='schemaView == \'Questions\'', total-items='allQuestions.length', items-per-page='countPerPage', ng-model='currentPage', ng-change='pageChanged()', max-size='3', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
-			pagination(ng-show='schemaView == \'Sections\'', total-items='allQuestions.length', items-per-page='questions.length', ng-model='currentPage', ng-change='pageChanged()', max-size='3', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
+		form.form-horizontal(role='form')
+			div.form-group.row(ng-repeat='q in questions')
+				h2(ng-show='!q.section.isChild && q.newSection') {{q.section.title}}
+				h4(ng-show='q.section.isChild && q.newSection') {{q.section.title}}
+				label.col-md-4(for='{{q.title}}') {{q.title}}		
+				div.col-md-8(ng-switch='q.type')
+					toggle-switch(ng-switch-when='checkbox', model='responses[q.id]', on-label='Yes', off-label='No')
+					input.form-control(ng-switch-when='text', type='text', ng-model='responses[q.id]')
+					textarea.form-control(ng-switch-when='textarea', ng-model='responses[q.id]', rows='10')
+					div(ng-switch-when='radio')
+						label.checkbox-inline(ng-repeat='o in q.options')
+							input(type='radio', ng-model='responses[q.id]', ng-value='o.title', value='o.title')  
+							|  {{o.title}}
+				
+		div.row.text-center
+			div.pull-left(style='margin: 20px;', ng-show='schemaView == \'Questions\'')
+				select.form-control(id='perPage', ng-model='countPerPage', ng-change='pageChanged()')
+					option(value='{{allQuestions.length}}') All
+					option(ng-repeat='n in [1, 2, 3, 4, 5]', value='{{n}}')	{{n}}
+				| Per Page
+			div
+				pagination(ng-show='schemaView == \'Questions\'', total-items='allQuestions.length', items-per-page='countPerPage', ng-model='currentPage', ng-change='pageChanged()', max-size='3', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
+				pagination(ng-show='schemaView == \'Sections\'', total-items='allQuestions.length', items-per-page='questions.length', ng-model='currentPage', ng-change='pageChanged()', max-size='3', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
 
-	div.row
-		p.col-md-12
-			input#fileUpload(type='file', accept='image/*;capture=camera', ng-show='isOnline')
+		div.row
+			p.col-md-12
+				input#fileUpload(type='file', accept='image/*;capture=camera', ng-show='isOnline')

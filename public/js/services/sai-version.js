@@ -1,0 +1,1 @@
+angular.module('sai-version', []).value('version', '1.1.0');

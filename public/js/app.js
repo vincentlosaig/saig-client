@@ -2,7 +2,7 @@
 
 // Declare app level module which depends on filters, and services
 
-var app = angular.module('auditApp', ['ngRoute', 'ui.bootstrap', 'auditApp.filters', 'auditApp.services', 'auditApp.directives'])
+var app = angular.module('auditApp', ['ngRoute', 'auditApp.filters', 'auditApp.services', 'auditApp.directives'])
 	.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 		$routeProvider.
 			when('/', {
