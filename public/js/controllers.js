@@ -1,6 +1,6 @@
 'use strict';
 
-function MainController($scope, $http, $rootScope, $filter) {
+angular.module('auditApp').controller('MainController', ['$scope', '$http', '$rootScope', '$filter', function($scope, $http, $rootScope, $filter) {
 	$scope.responses = {};
 	$scope.files = {};	
 	$scope.allQuestions = [];
@@ -172,4 +172,4 @@ function MainController($scope, $http, $rootScope, $filter) {
 			}
 		}
 	}, 10000);
-}
+}]);
