@@ -21,13 +21,13 @@ div.container
 		div.col-xs-2
 			
 	hr
-	div.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
-		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showSuccess = ! showSuccess')&times;
-		{{successMessage}}
-	div.alert.alert-danger.alert-dismissable(ng-show='failureMessage != null && showFailure') 
-		button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showFailure = ! showFailure')&times;
-		{{failureMessage}}
-		
+	div.animate-show-hide.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
+			button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showSuccess = ! showSuccess')&times;
+			{{successMessage}}
+		div.animate-show-hide.alert.alert-danger.alert-dismissable(ng-show='failureMessage != null && showFailure') 
+			button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showFailure = ! showFailure')&times;
+			{{failureMessage}}
+			
 	div.row.form-group
 		label.col-md-4 Schema View
 		div.col-md-8.btn-group

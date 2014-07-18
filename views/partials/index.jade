@@ -30,17 +30,18 @@ div.container(ng-cloak)
 				a.btn.btn-default.btn-md.pull-right(href='/settings', style='margin-top:20px; margin-bottom:10px;')
 					span.glyphicon.glyphicon-cog
 		hr
-		div.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
+		div.animate-show-hide.alert.alert-success.alert-dismissable(ng-show='successMessage != null && showSuccess') 
 			button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showSuccess = ! showSuccess')&times;
 			{{successMessage}}
-		div.alert.alert-danger.alert-dismissable(ng-show='failureMessage != null && showFailure') 
+		div.animate-show-hide.alert.alert-danger.alert-dismissable(ng-show='failureMessage != null && showFailure') 
 			button.close(type='button', data-hide='alert', aria-hidden="true", ng-click='showFailure = ! showFailure')&times;
 			{{failureMessage}}
 
 		form.form-horizontal(role='form')
 			div.form-group.row(ng-repeat='q in questions')
-				h2(ng-show='!q.section.isChild && q.newSection') {{q.section.title}}
-				h4(ng-show='q.section.isChild && q.newSection') {{q.section.title}}
+				h2(ng-show='schemaView == \'Sections\' && (!q.section.isChild && q.newSection)') {{q.section.title}}
+				h2(ng-show='schemaView == \'Sections\' && (q.section.parent && q.newSection)') {{q.section.parent.title}}
+				h4(ng-show='schemaView == \'Sections\' && (q.section.isChild && q.newSection)') {{q.section.title}}
 				label.col-md-4(for='{{q.title}}') {{q.title}}		
 				div.col-md-8(ng-switch='q.type')
 					toggle-switch(ng-switch-when='checkbox', model='responses[q.id]', on-label='Yes', off-label='No')

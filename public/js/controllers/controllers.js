@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('auditApp').controller('MainController', ['$scope', '$http', '$rootScope', '$filter', function($scope, $http, $rootScope, $filter) {
+angular.module('auditApp').controller('MainController', ['$scope', '$http', '$rootScope', '$filter', '$timeout', function($scope, $http, $rootScope, $filter, $timeout) {
 	$scope.responses = {};
 	$scope.files = {};	
 	$scope.allQuestions = [];
@@ -19,6 +19,10 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 			$scope.showSuccess = true;
 			$scope.showFailure = false;			
 		}
+		
+		$timeout(function() {
+			$scope.showSuccess = $scope.showFailure = false;
+		}, 3000);
 	};	
 	
 	if (typeof window.localStorage !== "undefined") {
@@ -73,26 +77,27 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 	};
 	$http.jsonp($rootScope.apiLink + '/json/schemas.json?callback=JSON_CALLBACK');
 			
-	function recursiveIter(sect, child) {
-		recursivePush(sect, child);
+	function recursiveIter(sect, child, parent) {
+		recursivePush(sect, child, parent);
 		var childSect = sect.children;		
 		childSect.forEach(function (newSect) {
-			recursiveIter(newSect, true);			
+			recursiveIter(newSect, true, sect);			
 		});
 	}
 	
-	function recursivePush(section, child) {
+	function recursivePush(section, child, parent) {
 		$scope.sections.push({
 			id: section.id,
 			title: section.title,
-			isChild: child
+			isChild: child,
+			parent: parent
 		});
 	}
 	
 	window.JSON_CALLBACK = function(data) {	
 		if ($scope.questions.length == 0) {			
 			data["sections"].forEach(function (s) {
-				recursiveIter(s, false);
+				recursiveIter(s, false, null);
 			});
 			
 			var lastSection;
@@ -104,7 +109,8 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 					type: q.type,
 					options: q.options,
 					section: section,
-					newSection: lastSection != section
+					newSection: lastSection != section,
+					parentSection: section.parent
 				});			
 				lastSection = section;
 			});
