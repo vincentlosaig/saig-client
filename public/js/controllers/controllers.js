@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('auditApp').controller('MainController', ['$scope', '$http', '$rootScope', '$filter', '$timeout', function($scope, $http, $rootScope, $filter, $timeout) {
+angular.module('auditApp').controller('MainController', ['$scope', '$http', '$rootScope', '$filter', '$timeout', '$interval', function($scope, $http, $rootScope, $filter, $timeout, $interval) {
 	$scope.responses = {};
 	$scope.files = {};	
 	$scope.allQuestions = [];
@@ -8,6 +8,8 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 	$scope.questions = [];
 	$scope.schemaView = 'Questions';
 	$scope.ready = false;
+	$scope.timerStarted = false;
+	$scope.intervalTimer;
 	
 	$scope.setMessage = function (successMsg, failMsg) {
 		if (successMsg == "") {
@@ -172,12 +174,18 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 		}
 	}
 	
+	$scope.$on('$destroy', function() {
+		if (angular.isDefined($scope.intervalTimer)) $interval.cancel($scope.intervalTimer);
+	});
+	
+	if (angular.isDefined($scope.intervalTimer)) $interval.cancel($scope.intervalTimer);
+	
 	// Check application cache status every 10 seconds
-	setInterval(function(){
+	$scope.intervalTimer = $interval(function() {
 		if ($rootScope.isOnline) {
 			if(!$rootScope.requireUpdate && window.applicationCache.status != window.applicationCache.UNCACHED) {
 				window.applicationCache.update(); // Update the cache in background. Won't take effect until reload.				
 			}
 		}
-	}, 10000);
+	}, 10000);	
 }]);
