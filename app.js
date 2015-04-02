@@ -26,7 +26,7 @@ if (env === 'development') {
 
 // production only
 if (env === 'production') {
-  app.locals.apiLink = 'http://saig-api.herokuapp.com';
+  app.locals.apiLink = 'https://saig-api.herokuapp.com';
 }
 
 app.get('/', function(req,res){
