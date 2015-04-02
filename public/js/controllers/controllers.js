@@ -11,6 +11,7 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 	$scope.timerStarted = false;
 	$scope.intervalTimer;
 	$scope.defaultCount = 10;
+	$scope.qId = 0;
 	
 	$scope.setMessage = function (successMsg, failMsg) {
 		if (successMsg == "") {
@@ -108,7 +109,8 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 			data["schema"]["qms"].questions.forEach(function (q) {
 				var section = $filter('getByProperty')('id', q.section, $scope.sections);
 				$scope.allQuestions.push({
-					id: q.id,
+					//id: q.id,
+					id: $scope.qId++,
 					title: q.title,
 					type: q.type,
 					options: q.options,
