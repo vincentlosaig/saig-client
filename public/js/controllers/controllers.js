@@ -59,10 +59,10 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 			localStorage.setItem("Page", $scope.currentPage);
 			localStorage.setItem("Count", $scope.countPerPage);			
 		}
-		$scope.displayQuestions();
+		displayQuestions();
 	};
 	
-	$scope.displayQuestions = function() {
+	function displayQuestions() {
 		switch ($scope.schemaView) {
 			case "Questions":
 				$scope.questions = $scope.allQuestions.slice((parseInt($scope.currentPage, 10) - 1) * parseInt($scope.countPerPage, 10), ((parseInt($scope.currentPage, 10) - 1) * parseInt($scope.countPerPage, 10)) + parseInt($scope.countPerPage, 10));
@@ -76,7 +76,8 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 				});
 				break;
 		}
-	};
+	}
+	
 	$http.jsonp($rootScope.apiLink + '/json/schemas.json?callback=JSON_CALLBACK');
 			
 	function recursiveIter(sect, child, parent) {
@@ -121,7 +122,7 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 		$scope.countPerPage = localStorage.getItem("Count") != null ? parseInt(localStorage.getItem("Count"), 10) : parseInt($scope.allQuestions.length, 10);		
 		$scope.title = data['schema']['qms'].title;
 		$scope.ready = true;
-		$scope.displayQuestions();
+		displayQuestions();
 	};
 	
 	$scope.$watchCollection('responses', function(newVal, oldVal) {
