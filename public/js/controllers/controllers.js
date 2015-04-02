@@ -10,6 +10,7 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 	$scope.ready = false;
 	$scope.timerStarted = false;
 	$scope.intervalTimer;
+	$scope.countPerPage = 10;
 	
 	$scope.setMessage = function (successMsg, failMsg) {
 		if (successMsg == "") {
