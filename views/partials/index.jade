@@ -55,8 +55,7 @@ div.container(ng-cloak)
 		div.row.text-center
 			div.pull-left(style='margin: 20px;', ng-show='schemaView == \'Questions\'')
 				select.form-control(id='perPage', ng-model='countPerPage', ng-change='pageChanged()')
-					option(value='{{allQuestions.length}}') All
-					option(ng-repeat='n in [1, 2, 3, 4, 5]', value='{{n}}')	{{n}}
+					option(ng-repeat='n in [1, 2, 3, 4, 5, 10, 25, 50]', value='{{n}}')	{{n}}
 				| Per Page
 			div
 				pagination(ng-show='schemaView == \'Questions\'', total-items='allQuestions.length', items-per-page='countPerPage', ng-model='currentPage', ng-change='pageChanged()', max-size='3', rotate='false', next-text='>', previous-text='<', boundary-links='true', first-text='<<', last-text='>>')		
