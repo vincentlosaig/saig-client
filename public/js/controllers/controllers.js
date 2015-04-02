@@ -10,6 +10,7 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 	$scope.ready = false;
 	$scope.timerStarted = false;
 	$scope.intervalTimer;
+	$scope.defaultCount = 10;
 	
 	$scope.setMessage = function (successMsg, failMsg) {
 		if (successMsg == "") {
@@ -119,7 +120,7 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 			});
 		}
 		$scope.currentPage = localStorage.getItem("Page") != null ? parseInt(localStorage.getItem("Page"), 10) : parseInt(1, 10);
-		$scope.countPerPage = localStorage.getItem("Count") != null ? parseInt(localStorage.getItem("Count"), 10) : parseInt(10, 10);		
+		$scope.countPerPage = localStorage.getItem("Count") != null ? parseInt(localStorage.getItem("Count"), 10) : parseInt($scope.defaultCount, 10);		
 		$scope.title = data['schema']['qms'].title;
 		$scope.ready = true;
 		displayQuestions();
@@ -171,7 +172,7 @@ angular.module('auditApp').controller('MainController', ['$scope', '$http', '$ro
 			$scope.setMessage("Saved Schema View.", "");
 			localStorage.setItem("SchemaView", schemaView);
 			localStorage.setItem("Page", 1);
-			localStorage.setItem("Count", $scope.allQuestions.length);
+			localStorage.setItem("Count", $scope.defaultCount);
 		}
 	}
 	
