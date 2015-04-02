@@ -35,7 +35,7 @@ var app = angular.module('auditApp', ['ngRoute', 'ngAnimate', 'auditApp.filters'
 app.run(['$window', '$rootScope', function($window, $rootScope) {
 	$rootScope.isOnline = navigator.onLine;
 	$rootScope.requireUpdate = ($window.applicationCache.status == window.applicationCache.UPDATEREADY && $scope.isOnline);
-	$rootScope.apiLink = "http://saig-api.herokuapp.com";
+	$rootScope.apiLink = "https://saig-api.herokuapp.com";
 	//$rootScope.apiLink = "http://localhost:4000";
 
 	$window.addEventListener("offline", function() {
